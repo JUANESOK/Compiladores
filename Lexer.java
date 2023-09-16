@@ -150,17 +150,34 @@ public class Lexer {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese la cadena a analizar: ");
+        System.out.print("Ingrese la expresión a analizar (o 'exit' para salir): ");
         String input = scanner.nextLine();
-        scanner.close();
 
-        Lexer lexer = new Lexer(input);
-        ArrayList<Token> tokens = lexer.tokenize();
+        while (!input.equals("exit")) {
+            // Crear el lexer y el parser para la expresión ingresada
+            Lexer lexer = new Lexer(input);
+            ArrayList<Token> tokens = lexer.tokenize();
+            List<Integer> tokenValues = new ArrayList<>();
+            
+            for (Token token : tokens) {
+                tokenValues.add(token.ordinal());
+            }
 
-        System.out.println("Tokens generados:");
-        for (Token token : tokens) {
-            System.out.println(token);
+            Parser parser = new Parser(tokenValues);
+
+            try {
+                // Analizar y evaluar la expresión
+                Integer result = parser.parse();
+                System.out.println("Resultado: " + result);
+            } catch (RuntimeException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+
+            System.out.print("Ingrese otra expresión (o 'exit' para salir): ");
+            input = scanner.nextLine();
         }
+
+        scanner.close();
     }
 }
 
