@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Lexer {
     private static HashMap<String, Token> keywords = new HashMap<>();
@@ -13,6 +11,11 @@ public class Lexer {
         keywords.put("for", Token.FOR);
         keywords.put("function", Token.FUNCTION);
         keywords.put("let", Token.LET);
+        keywords.put("if", Token.IF);
+        keywords.put("else", Token.ELSE);
+        keywords.put("while", Token.WHILE);
+        keywords.put("true", Token.TRUE);
+        keywords.put("false", Token.FALSE);
     }
 
     public Lexer(String input) {
@@ -77,11 +80,11 @@ public class Lexer {
     private Token matchSingleCharacterToken(char currentChar) {
         switch (currentChar) {
             case '=':
-            if (peek() == '=') {
-                position++;
-                return Token.EQ;
-            }
-            return Token.NEGATION;
+                if (peek() == '=') {
+                    position++;
+                    return Token.EQ;
+                }
+                return Token.ASSIGN;
             case ',':
                 return Token.COMMA;
             case '/':
@@ -120,11 +123,23 @@ public class Lexer {
                 return Token.RBRACE;
             case ';':
                 return Token.SEMICOLON;
+            case '&':
+                if (peek() == '&') {
+                    position++;
+                    return Token.AND;
+                }
+                return Token.ILLEGAL;
+            case '|':
+                if (peek() == '|') {
+                    position++;
+                    return Token.OR;
+                }
+                return Token.ILLEGAL;
             default:
                 return null;
         }
     }
-
+//
     private char peek() {
         if (position + 1 < input.length()) {
             return input.charAt(position + 1);
@@ -175,4 +190,12 @@ enum Token {
     RBRACE,
     RPAREN,
     SEMICOLON,
+    // Nuevos tokens para operaciones booleanas y lógicas
+    AND,
+    OR,
+    IF,
+    ELSE,
+    WHILE,
+    TRUE,
+    FALSE,
 }
