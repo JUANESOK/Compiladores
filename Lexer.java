@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class Lexer {
@@ -150,7 +151,7 @@ public class Lexer {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese la expresión a analizar (o 'exit' para salir): ");
+        System.out.print("Ingrese la expresión a analizar (o 'exit' para salir): \n");
         String input = scanner.nextLine();
 
         while (!input.equals("exit")) {
