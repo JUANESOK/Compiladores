@@ -158,6 +158,6 @@ public class Parser {
             advance();
         } else {
             throw new RuntimeException(errorMessage);
-        }
-    }
+        }
+    }
 }
